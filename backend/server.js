@@ -4,6 +4,7 @@ const cors = require('cors');
 const pool = require('./config/db');
 const hintRoutes = require('./routes/hint');
 const app = express();
+const rateLimit = require('express-rate-limit');
 
  app.use(cors());
  app.use(express.json());
@@ -25,7 +26,12 @@ const app = express();
 
 const assignmentRoutes = require('./routes/assignments');
 const executeRoutes = require('./routes/execute');
+const limiter = rateLimit({
+    windowsMs: 15 * 60 * 1000, // 15 minutes
+    max: 50
+});
 
+app.use(limiter);
 app.use('/api/assignments', assignmentRoutes);
 app.use('/api/execute', executeRoutes);
 
