@@ -1,11 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const pool = require('./config/db');
-
+const hintRoutes = require('./routes/hint');
 const app = express();
+
  app.use(cors());
  app.use(express.json());
+ app.use('/api/hint', hintRoutes);
 
  app.get("/", (req, res) => {
     res.send("CipherSQL Studio Backend is running!");

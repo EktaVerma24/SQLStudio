@@ -1,29 +1,54 @@
 const express = require("express");
 const router = express.Router();
-const OpenAI = require("openai");
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+const axios = require("axios");
 
 router.post("/", async (req, res) => {
-    const{assignmentId, query} = req.body;
-    try {
-        const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            messages: [
-                {
-                    role: "system",
-                    content: `Assignment ${assignmentId}.User's SQL query: ${query}. Provide hints to help the user correct their query.`,
-                
-                },
-            ],
-        });
-        res.json({
-            hint: completion.choices[0].message.content,
-        });
-    } catch (error) {
-        res.status(500).json({ error: "Error generating hint" });
-    }
+  const { assignmentId, query } = req.body;
+
+  if (!assignmentId || !query) {
+    return res.status(400).json({
+      error: "assignmentId and query are required",
     });
+  }
+
+  try {
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GOOGLE_API_KEY}`,
+      {
+        contents: [
+          {
+            parts: [
+              {
+text: `
+You are a senior SQL mentor.
+
+Rules:
+- Give only a guiding hint.
+- Do NOT give full query.
+- Encourage thinking.
+- Keep under 3 sentences.
+
+Assignment ${assignmentId}
+Student Query: ${query}
+`              },
+            ],
+          },
+        ],
+      }
+    );
+
+    const hint =
+      response.data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No hint generated";
+
+    res.json({ hint });
+  } catch (error) {
+    console.error(
+      "Error generating hint:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: "Failed to generate hint" });
+  }
+});
+
 module.exports = router;
