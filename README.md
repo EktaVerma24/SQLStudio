@@ -6,6 +6,22 @@ The project combines a PostgreSQL sandbox for the actual data with a MongoDB per
 
 ---
 
+## DEMO Video DRIVE LINK
+https://drive.google.com/file/d/1DDa7NPXpKhvQJ5kC54X3nzx9FmDE2u5r/view?usp=sharing
+
+## 📸 Project Preview
+
+### Assignment Dashboard
+![Assignments Page](./frontend/public/screenshots/assignments.png)
+
+### SQL Editor & Results
+![Query Execution](./frontend/public/screenshots/editor.png)
+
+### AI-Powered Hints
+![AI Hints](./frontend/public/screenshots/hint.png)
+
+---
+
 ## ✨ Key Features
 
 - **Practice with Real Data**: I've pre-loaded a `users` table so you can jump straight into writing `SELECT` queries.

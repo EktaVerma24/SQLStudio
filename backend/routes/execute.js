@@ -60,13 +60,15 @@ router.post('/', async (req, res) => {
 
         // Save attempt to MongoDB (Persistence DB)
         try {
-            await QueryAttempt.create({
+            console.log("💾 Saving attempt to MongoDB...");
+            const attempt = await QueryAttempt.create({
                 assignmentId,
                 query,
                 isCorrect
             });
+            console.log("✅ Attempt saved to MongoDB ID:", attempt._id);
         } catch (mongoError) {
-            console.error("Failed to save attempt to MongoDB:", mongoError.message);
+            console.error("❌ Failed to save attempt to MongoDB:", mongoError.message);
         }
 
         res.json({

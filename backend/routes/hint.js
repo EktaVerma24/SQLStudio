@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const pool = require("../config/db");
 
 router.post("/", async (req, res) => {
   const { assignmentId, query } = req.body;
@@ -12,6 +13,11 @@ router.post("/", async (req, res) => {
   }
 
   try {
+    // 1. Get assignment detail for context
+    const assignmentRes = await pool.query('SELECT * FROM assignments WHERE id = $1', [assignmentId]);
+    const assignment = assignmentRes.rows[0] || { title: "Unknown", description: "No description" };
+
+    // 2. Call Gemini
     const response = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GOOGLE_API_KEY}`,
       {
@@ -19,18 +25,21 @@ router.post("/", async (req, res) => {
           {
             parts: [
               {
-text: `
+                text: `
 You are a senior SQL mentor.
 
-Rules:
-- Give only a guiding hint.
-- Do NOT give full query.
-- Encourage logical thinking.
-- Keep under 3 sentences.
-- Be concise and educationally clear.
+Task: Provide a helpful hint to a student working on the following assignment.
 
-Assignment ${assignmentId}
-Student Query: ${query}
+Assignment Title: ${assignment.title}
+Assignment Goal: ${assignment.description}
+Student's Current Query: ${query}
+
+Rules:
+- Give only a GUIDING HINT.
+- Do NOT provide the full solution query.
+- Identify what's missing (e.g., a WHERE clause, an aggregate, a GROUP BY).
+- Keep it under 2-3 sentences.
+- Be encouraging but professional.
 `              },
             ],
           },
