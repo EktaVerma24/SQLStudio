@@ -1,0 +1,22 @@
+// =============================================================================
+// main.scss — Entry point: imports all partials
+// Assignment: CipherSQL Studio
+// Approach: Mobile-first, BEM naming, vanilla SCSS
+// =============================================================================
+
+// 1. Tokens
+@use 'variables' as *;
+
+// 2. Helpers
+@use 'mixins';
+
+// 3. Base
+@use 'base';
+
+// 4. Shared components
+@use 'components';
+
+// 5. Layout partials
+@use 'navbar';
+@use 'assignments';
+@use 'assignment-detail';

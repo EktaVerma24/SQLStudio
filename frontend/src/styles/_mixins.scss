@@ -1,0 +1,121 @@
+// =============================================================================
+// _mixins.scss — Reusable mixins for CipherSQL Studio
+// =============================================================================
+@use 'variables' as *;
+
+// ── Responsive helpers (mobile-first) ─────────────────────────────────────────
+@mixin sm {
+    @media (min-width: #{$bp-sm}) {
+        @content;
+    }
+}
+
+@mixin md {
+    @media (min-width: #{$bp-md}) {
+        @content;
+    }
+}
+
+@mixin lg {
+    @media (min-width: #{$bp-lg}) {
+        @content;
+    }
+}
+
+// ── Flex helpers ──────────────────────────────────────────────────────────────
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-row($gap: 0) {
+    display: flex;
+    align-items: center;
+    gap: $gap;
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+@mixin card {
+    background: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+}
+
+@mixin card-hover {
+    @include card;
+    cursor: pointer;
+    transition: $transition-normal;
+
+    &:hover {
+        border-color: rgba($accent, 0.5);
+        background: $bg-card-hover;
+        box-shadow: 0 0 24px -6px $accent-glow;
+        transform: translateY(-2px);
+    }
+}
+
+// ── Section label ─────────────────────────────────────────────────────────────
+@mixin section-label {
+    display: flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-3 $space-4;
+    border-bottom: 1px solid $border-color;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $text-muted;
+}
+
+// ── Scrollable box ────────────────────────────────────────────────────────────
+@mixin scrollbox($max-height) {
+    overflow: auto;
+    max-height: $max-height;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $bg-secondary;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $border-color;
+        border-radius: $radius-full;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: $accent;
+    }
+}
+
+// ── Button base ───────────────────────────────────────────────────────────────
+@mixin btn-base {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    padding: 10px $space-5;
+    border-radius: $radius-md;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: $font-sans;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: $transition-fast;
+    outline: none;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}

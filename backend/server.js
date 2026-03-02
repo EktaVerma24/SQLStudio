@@ -5,14 +5,20 @@ const pool = require('./config/db');
 const hintRoutes = require('./routes/hint');
 const app = express();
 const rateLimit = require('express-rate-limit');
+const dataRoutes = require('./routes/data');
+const connectDB = require('./config/mongodb');
 
- app.use(cors());
- app.use(express.json());
- app.use('/api/hint', hintRoutes);
+// Connect to MongoDB (Persistence DB)
+connectDB();
 
- app.get("/", (req, res) => {
+app.use(cors());
+app.use(express.json());
+app.use('/api/hint', hintRoutes);
+app.use('/api/data', dataRoutes);
+
+app.get("/", (req, res) => {
     res.send("CipherSQL Studio Backend is running!");
-    });
+});
 
 //     app.get("/test-db", async (req, res) => {
 //     try {
@@ -24,10 +30,16 @@ const rateLimit = require('express-rate-limit');
 //     }
 // });
 
+// Test DB connection on startup
+
+pool.query("SELECT NOW()")
+    .then(res => console.log("DB Connected:", res.rows))
+    .catch(err => console.error("DB Connection Error:", err));
+
 const assignmentRoutes = require('./routes/assignments');
 const executeRoutes = require('./routes/execute');
 const limiter = rateLimit({
-    windowsMs: 15 * 60 * 1000, // 15 minutes
+    windowMs: 15 * 60 * 1000, // 15 minutes
     max: 50
 });
 

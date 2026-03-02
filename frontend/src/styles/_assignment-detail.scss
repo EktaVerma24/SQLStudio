@@ -1,0 +1,285 @@
+// =============================================================================
+// _assignment-detail.scss — Assignment attempt page
+// =============================================================================
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.detail {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: $space-6 $space-5;
+    animation: fadeIn 0.3s ease;
+
+    @include sm {
+        padding: $space-8 $space-6;
+    }
+
+    // ── Back button ─────────────────────────────────────────────────────────────
+    &__back {
+        margin-bottom: $space-6;
+    }
+
+    // ── Two-column layout ────────────────────────────────────────────────────────
+    &__layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: $space-5;
+        align-items: start;
+
+        @include md {
+            grid-template-columns: 360px 1fr;
+        }
+
+        @include lg {
+            grid-template-columns: 380px 1fr;
+        }
+    }
+
+    &__left,
+    &__right {
+        display: flex;
+        flex-direction: column;
+        gap: $space-4;
+    }
+}
+
+// ── Problem card ─────────────────────────────────────────────────────────────
+.problem-card {
+    @include card;
+    padding: $space-5;
+
+    &__badge {
+        margin-bottom: $space-3;
+    }
+
+    &__title {
+        font-size: 17px;
+        font-weight: 700;
+        color: $text-primary;
+        margin-bottom: $space-2;
+        line-height: 1.35;
+    }
+
+    &__description {
+        font-size: 13px;
+        color: $text-secondary;
+        line-height: 1.7;
+    }
+}
+
+// ── Sample data panel ─────────────────────────────────────────────────────────
+.sample-data {
+    @include card;
+    overflow: hidden;
+
+    &__label {
+        @include section-label;
+    }
+
+    &__scroll {
+        @include scrollbox(256px);
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+        text-align: left;
+
+        thead tr {
+            background: rgba($bg-secondary, 0.8);
+            position: sticky;
+            top: 0;
+        }
+
+        th {
+            padding: $space-2 $space-3;
+            font-weight: 600;
+            color: $text-secondary;
+            border-bottom: 1px solid $border-color;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid rgba($border-color, 0.5);
+
+            &:nth-child(even) {
+                background: rgba($bg-secondary, 0.3);
+            }
+
+            &:hover {
+                background: rgba($accent, 0.04);
+            }
+        }
+
+        td {
+            padding: $space-2 $space-3;
+            color: $text-secondary;
+            font-family: $font-mono;
+            white-space: nowrap;
+        }
+    }
+}
+
+// ── Hint panel ────────────────────────────────────────────────────────────────
+.hint-panel {
+    @include card;
+    border-color: $warning-border;
+    background: $warning-bg;
+    padding: $space-4;
+    animation: fadeIn 0.3s ease;
+
+    &__label {
+        @include flex-row($space-2);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: $warning;
+        margin-bottom: $space-2;
+    }
+
+    &__text {
+        font-size: 13px;
+        color: $text-secondary;
+        line-height: 1.7;
+    }
+}
+
+// ── Editor wrapper ────────────────────────────────────────────────────────────
+.editor-wrapper {
+    @include card;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    &__chrome {
+        @include flex-row($space-2);
+        padding: $space-2 $space-4;
+        background: $bg-secondary;
+        border-bottom: 1px solid $border-color;
+    }
+
+    &__dot {
+        width: 12px;
+        height: 12px;
+        border-radius: $radius-full;
+
+        &--red {
+            background: rgba(248, 113, 113, 0.7);
+        }
+
+        &--amber {
+            background: rgba(251, 191, 36, 0.7);
+        }
+
+        &--green {
+            background: rgba(52, 211, 153, 0.7);
+        }
+    }
+
+    &__filename {
+        margin-left: $space-2;
+        font-size: 12px;
+        font-family: $font-mono;
+        color: $text-muted;
+    }
+}
+
+// ── Action buttons row ────────────────────────────────────────────────────────
+.editor-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-3;
+}
+
+// ── Result panel ─────────────────────────────────────────────────────────────
+.result-panel {
+    @include card;
+    overflow: hidden;
+
+    &__label {
+        @include section-label;
+    }
+
+    &__body {
+        padding: $space-3;
+    }
+}
+
+// ── Result table ─────────────────────────────────────────────────────────────
+.result-table {
+    &__scroll {
+        @include scrollbox(280px);
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    &__head {
+        position: sticky;
+        top: 0;
+        background: $bg-secondary;
+    }
+
+    &__th {
+        padding: 10px $space-4;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-secondary;
+        border-bottom: 1px solid $border-color;
+        white-space: nowrap;
+    }
+
+    &__row {
+        border-bottom: 1px solid rgba($border-color, 0.5);
+        transition: background 0.12s ease;
+
+        &:nth-child(even) {
+            background: rgba($bg-secondary, 0.3);
+        }
+
+        &:hover {
+            background: rgba($accent, 0.05);
+        }
+    }
+
+    &__td {
+        padding: 10px $space-4;
+        color: $text-secondary;
+        font-family: $font-mono;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    &__footer {
+        padding: $space-2 $space-4;
+        background: rgba($bg-secondary, 0.5);
+        border-top: 1px solid $border-color;
+        font-size: 11px;
+        color: $text-muted;
+    }
+
+    // Empty / error states
+    &__empty,
+    &__error {
+        display: flex;
+        align-items: center;
+        gap: $space-2;
+        padding: $space-5 $space-4;
+        font-size: 13px;
+        color: $text-muted;
+    }
+
+    &__error {
+        color: $error;
+        background: $error-bg;
+        border-radius: $radius-sm;
+        border: 1px solid $error-border;
+    }
+}
